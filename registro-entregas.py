@@ -6,18 +6,6 @@ from functools import partial
 import pandas as pd
 import os
 
-# to-do:
-
-# more data visualization options (totals, average, etc)
-# client management options (remove, change name)
-# client-specific data visualization
-# better layout
-
-# Variáveis iniciais
-valor_pacote = 50
-DATA_DIR = "data"
-os.makedirs(DATA_DIR, exist_ok=True)
-
 # Data sets
 dataset_dia = {'NOME': [], 'QUANTIDADE': [], 'PAGAMENTO': [], 'DATA': []}
 dataset_mes = {'DATA': [], 'ENTREGAS': [], 'PARADAS': [], 'FATURAMENTO': []}
@@ -29,11 +17,11 @@ dataset_ano = pd.DataFrame(dataset_ano)
 
 # Configurações iniciais
 valor_pacote = 50
-DATA_DIR = "data"
-os.makedirs(DATA_DIR, exist_ok=True)
+data_dir = "data"
+os.makedirs(data_dir, exist_ok=True)
 
 # Carregar ou criar o arquivo CSV
-csv_path = os.path.join(DATA_DIR, "data.csv")
+csv_path = os.path.join(data_dir, "data.csv")
 if os.path.exists(csv_path):
     data_frame = pd.read_csv(csv_path, parse_dates=["DATA"], dayfirst=True)
 else:
@@ -187,7 +175,7 @@ def browse_datas(direction):
     #update_mes_visivel()
     update_outputs()
 
-############################### MAIN
+### MAIN ###
 root = Tk()
 root.title("Registro de Entregas")
 
@@ -196,7 +184,7 @@ main.grid(row=0, column=0, sticky="nsew")
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
-# OPÇÕES DE VISUALIZAÇÃO
+# Opções de visualização
 e_visivel = BooleanVar(value=False)
 ttk.Checkbutton(main, text='esconde/mostra', variable=e_visivel, command=update_outputs).grid(row=0, column=0, sticky="w")
 
@@ -218,7 +206,7 @@ ttk.Button(frame_navegacao, text='<', command=partial(browse_datas, 0)).grid(row
 ttk.Label(frame_navegacao, textvariable=dia_visivel).grid(row=0, column=1, sticky="w")
 ttk.Button(frame_navegacao, text='>', command=partial(browse_datas, 1)).grid(row=0, column=2)
 
-# ------------------------ Frame diário ------------------------
+### Frame Diário ###
 frame_dia = ttk.Frame(main, padding=10)
 frame_dia.grid(row=2, column=0, columnspan=3, sticky="nsew")
 
@@ -248,7 +236,7 @@ calendario.grid(row=6, column=1, sticky="ew", pady=2)
 
 ttk.Button(frame_dia, text='Registrar', command=adicionar).grid(row=7, column=0, columnspan=2, pady=10)
 
-#frame mensal
+### Frame Mensal ###
 frame_mes = ttk.Frame(main)
 
 output_mes = Text(frame_mes, height=10, width=60, font=("Courier", 10), state='disabled')
@@ -257,13 +245,13 @@ output_mes.pack()
 mes_visivel = StringVar(value=hoje.month)
 index_mes = IntVar(value=0)
 
-#frame anual
+### Frame anual ###
 frame_ano = ttk.Frame(main)
 
 output_ano = Text(frame_ano, height=10, width=60, font=("Courier", 10), state='disabled')
 output_ano.pack()
 
-#mainloop
+### Mainloop ###
 
 trocar_visualizacao()
 organizar_datas()
